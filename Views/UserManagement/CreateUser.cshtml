@@ -1,0 +1,52 @@
+﻿@* CreateUser.cshtml - Views/UserManagement/CreateUser.cshtml *@
+@model object
+
+@{
+    ViewData["Title"] = "Opret Ny Bruger";
+}
+
+<h1>@ViewData</h1>
+<h3 class="text-secondary">Tilføj ny bruger</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        @* Form action bruger Tag Helpers til at poste til den korrekte controller/handling *@
+        <form asp-controller="UserManagement" asp-action="CreateUser" method="post">
+
+            @* Viser fejl fra ModelState, f.eks. "Alle felter kræves" eller Identity-fejl. *@
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            @* E-mail felt. name="email" er afgørende for at binde til controllerens 'email' parameter. *@
+            <div class="form-group mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input name="email" type="email" class="form-control" />
+            </div>
+
+            @* Adgangskode felt. name="password" er afgørende for at binde til controllerens 'password' parameter. *@
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Adgangskode</label>
+                <input name="password" type="password" class="form-control" />
+            </div>
+
+            @* Rollevalg. name="role" er afgørende for at binde til controllerens 'role' parameter. *@
+            <div class="form-group mb-4">
+                <label for="role" class="form-label">Rolle</label>
+                <select name="role" class="form-select">
+                    <option value="">-- Vælg en rolle --</option>
+                    @* Rollerne skal hardcodes for at matche controllerens forventede værdier. *@
+                    <option value="Admin">Admin</option>
+                    <option value="Developer">Developer</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Opret Bruger</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @* Sørger for, at klient-side valideringsscripts indlæses *@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
